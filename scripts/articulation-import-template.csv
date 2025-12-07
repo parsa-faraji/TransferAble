@@ -1,0 +1,9 @@
+community_college_code,course_code,course_name,units,university_code,equivalent_course_code,equivalent_course_name
+BCC,MATH 1A,Calculus I,4,UCB,MATH 1A,Calculus
+BCC,ENGL 1A,Composition and Reading,3,UCB,ENGL R1A,Reading and Composition
+BCC,PHYS 2A,Physics for Scientists and Engineers,4,UCB,PHYSICS 7A,Physics for Scientists and Engineers
+LANEY,MATH 1A,Calculus I,4,UCB,MATH 1A,Calculus
+LANEY,ENGL 1A,Composition and Reading,3,UCB,ENGL R1A,Reading and Composition
+COA,MATH 1A,Calculus I,4,UCB,MATH 1A,Calculus
+MERRITT,MATH 1A,Calculus I,4,UCB,MATH 1A,Calculus
+

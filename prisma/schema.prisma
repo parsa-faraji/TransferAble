@@ -1,0 +1,392 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  clerkId           String   @unique
+  email             String   @unique
+  firstName         String?
+  lastName          String?
+  profileImage      String?
+  role              UserRole @default(STUDENT)
+  subscriptionTier  SubscriptionTier @default(FREE)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Student fields
+  communityCollege  String?
+  currentMajor      String?
+  targetUniversities String[] // Array of university IDs
+  completedCourses  CourseCompletion[]
+  timeline          Timeline?
+  applications      Application[]
+  mentorshipRequests MentorshipRequest[]
+  mentorProfile     MentorProfile?
+
+  // Activity tracking
+  badges            Badge[]
+  level             Int      @default(1)
+  experiencePoints  Int      @default(0)
+
+  @@index([clerkId])
+  @@index([email])
+}
+
+enum UserRole {
+  STUDENT
+  MENTOR
+  COUNSELOR
+  ADMIN
+}
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+}
+
+model CommunityCollege {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  code        String   @unique
+  city        String?
+  state       String   @default("CA")
+  createdAt   DateTime @default(now())
+
+  courses     Course[]
+  equivalencies CourseEquivalency[]
+}
+
+model University {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  code        String   @unique
+  type        UniversityType
+  city        String?
+  state       String   @default("CA")
+  website     String?
+  createdAt   DateTime @default(now())
+
+  majors      Major[]
+  equivalencies CourseEquivalency[]
+  applications Application[]
+  mentors     MentorProfile[]
+}
+
+enum UniversityType {
+  UC
+  CSU
+  PRIVATE
+  OUT_OF_STATE
+}
+
+model Major {
+  id          String   @id @default(cuid())
+  name        String
+  code        String?
+  universityId String
+  university  University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  description String?
+  requirements MajorRequirement[]
+  createdAt   DateTime @default(now())
+
+  @@unique([universityId, code])
+  @@index([universityId])
+}
+
+model MajorRequirement {
+  id          String   @id @default(cuid())
+  majorId     String
+  major       Major    @relation(fields: [majorId], references: [id], onDelete: Cascade)
+  courseCode  String
+  courseName  String
+  isRequired  Boolean  @default(true)
+  isPrerequisite Boolean @default(false)
+  sequence    Int?     // For ordering courses
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  @@index([majorId])
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  code        String   // e.g., "MATH 1A"
+  name        String
+  description String?
+  units       Float
+  communityCollegeId String
+  communityCollege CommunityCollege @relation(fields: [communityCollegeId], references: [id], onDelete: Cascade)
+  prerequisites String[] // Array of course codes
+  createdAt   DateTime @default(now())
+
+  completions CourseCompletion[]
+  equivalencies CourseEquivalency[]
+
+  @@unique([communityCollegeId, code])
+  @@index([communityCollegeId])
+}
+
+model CourseEquivalency {
+  id          String   @id @default(cuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  universityId String
+  university  University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  communityCollegeId String
+  communityCollege CommunityCollege @relation(fields: [communityCollegeId], references: [id], onDelete: Cascade)
+  equivalentCourseCode String // e.g., "MATH 1A" at UC Berkeley
+  equivalentCourseName String
+  isVerified  Boolean  @default(false)
+  verifiedBy String?  // User ID who verified
+  verifiedAt  DateTime?
+  source     String   @default("ASSIST") // ASSIST, USER_GENERATED, COUNSELOR
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([courseId])
+  @@index([universityId])
+  @@index([communityCollegeId])
+}
+
+model CourseCompletion {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  grade       String?  // A, B, C, etc.
+  term        String?  // Fall 2024, Spring 2025, etc.
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@index([userId])
+}
+
+model Timeline {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetTransferTerm String // Fall 2025, Spring 2026, etc.
+  milestones  TimelineMilestone[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TimelineMilestone {
+  id          String   @id @default(cuid())
+  timelineId  String
+  timeline    Timeline @relation(fields: [timelineId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  dueDate     DateTime
+  isCompleted Boolean  @default(false)
+  completedAt DateTime?
+  category    MilestoneCategory
+  createdAt   DateTime @default(now())
+
+  @@index([timelineId])
+}
+
+enum MilestoneCategory {
+  COURSE_ENROLLMENT
+  APPLICATION_DEADLINE
+  EXAM_REGISTRATION
+  ESSAY_SUBMISSION
+  TRANSCRIPT_REQUEST
+  FINANCIAL_AID
+  HOUSING_APPLICATION
+  OTHER
+}
+
+model Application {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  universityId String
+  university  University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  majorId     String?
+  status      ApplicationStatus @default(DRAFT)
+  deadline    DateTime
+  submittedAt DateTime?
+  essays      ApplicationEssay[]
+  activities  ApplicationActivity[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([universityId])
+}
+
+enum ApplicationStatus {
+  DRAFT
+  IN_PROGRESS
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WAITLISTED
+}
+
+model ApplicationEssay {
+  id          String   @id @default(cuid())
+  applicationId String
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  prompt      String
+  content     String?
+  wordCount   Int      @default(0)
+  isComplete  Boolean  @default(false)
+  feedback    String?  // AI-generated or mentor feedback
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([applicationId])
+}
+
+model ApplicationActivity {
+  id          String   @id @default(cuid())
+  applicationId String
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  category    ActivityCategory
+  startDate   DateTime?
+  endDate     DateTime?
+  hoursPerWeek Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([applicationId])
+}
+
+enum ActivityCategory {
+  EXTRACURRICULAR
+  VOLUNTEER
+  WORK
+  RESEARCH
+  LEADERSHIP
+  AWARD
+  OTHER
+}
+
+model MentorProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  universityId String
+  university  University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  major       String
+  graduationYear Int?
+  bio         String?
+  specialties String[] // e.g., ["CS", "Transfer Process", "PIQs"]
+  isVerified  Boolean  @default(false)
+  isAvailable Boolean @default(true)
+  rating      Float    @default(0)
+  totalSessions Int    @default(0)
+  isPaid      Boolean  @default(false)
+  hourlyRate  Float?
+  verificationEmail String? // University email for verification
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  requests    MentorshipRequest[]
+
+  @@index([userId])
+  @@index([universityId])
+}
+
+model MentorshipRequest {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  mentorId    String
+  mentor      MentorProfile @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  status      RequestStatus @default(PENDING)
+  message     String?
+  topic       String?  // e.g., "Course Planning", "PIQ Help", "Major Selection"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  messages    Message[]
+
+  @@index([studentId])
+  @@index([mentorId])
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  COMPLETED
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  requestId   String
+  request     MentorshipRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  senderId    String
+  content     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([requestId])
+  @@index([senderId])
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        BadgeType
+  earnedAt    DateTime @default(now())
+
+  @@unique([userId, type])
+  @@index([userId])
+}
+
+enum BadgeType {
+  TRANSFER_READY
+  PIQ_COMPLETED
+  MAJOR_EXPLORER
+  HIGH_IMPACT_MENTOR
+  COURSE_PLANNER
+  APPLICATION_SUBMITTED
+  FIRST_MENTOR_SESSION
+}
+
+model Resource {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  type        ResourceType
+  url         String?
+  content     String?  // For embedded content
+  category    String?
+  tags        String[]
+  isFeatured  Boolean  @default(false)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type])
+  @@index([category])
+}
+
+enum ResourceType {
+  SCHOLARSHIP
+  ARTICLE
+  VIDEO
+  GUIDE
+  TOOL
+  COMMUNITY_POST
+}
+
