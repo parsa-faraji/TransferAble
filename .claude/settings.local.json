@@ -8,7 +8,12 @@
       "Bash(cat:*)",
       "Bash(ls:*)",
       "Bash(grep:*)",
-      "Bash(npx prisma:*)"
+      "Bash(npx prisma:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git stash:*)",
+      "Bash(git push:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []
