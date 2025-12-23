@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Calendar, CheckCircle2, Clock, AlertCircle, FileText } from "lucide-react";
 import { AddMilestoneForm } from "@/components/timeline/add-milestone-form";
 import { Button } from "@/components/ui/button";
+import { Mascot, MascotMessages } from "@/components/ui/mascot";
 
 interface Milestone {
   id: string;
@@ -113,7 +114,28 @@ export function TimelineClient() {
   const completed = data.milestones.filter((m) => m.isCompleted);
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-gradient-to-br from-gray-50 via-orange-50/20 to-red-50/20 min-h-screen">
+      {/* Mascot Section */}
+      <div className="mb-8">
+        <Card className="border-2 border-orange-200 bg-gradient-to-br from-orange-50 via-white to-amber-50">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <Mascot
+                mood="celebrating"
+                size="md"
+                showName={false}
+                animated={true}
+              />
+              <div className="flex-1">
+                <p className="text-gray-700 font-medium">
+                  {MascotMessages.deadlineReminder}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="mb-8 flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Transfer Timeline</h1>
@@ -123,7 +145,7 @@ export function TimelineClient() {
         </div>
         <div className="flex gap-2">
           {!data.timeline && (
-            <Button onClick={generateTimeline} variant="outline">
+            <Button onClick={generateTimeline} variant="outline" className="hover:scale-105 transition-transform">
               Generate Timeline
             </Button>
           )}

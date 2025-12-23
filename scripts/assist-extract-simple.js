@@ -25,10 +25,10 @@
   // ============================================================================
   // LLM validation will check if course codes match course names and detect swaps
   const ENABLE_LLM_VALIDATION = true;
-  const OPENAI_API_KEY = "process.env.OPENAI_API_KEY || "your_openai_api_key_here"";
-  
-  // ⚠️ SECURITY NOTE: This API key is embedded in the script. 
-  // Don't share this script publicly or commit it to public repositories.
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "your_openai_api_key_here";
+
+  // ⚠️ SECURITY NOTE: Set OPENAI_API_KEY in your .env file
+  // Don't hardcode API keys in scripts or commit them to repositories.
   // ============================================================================
   
   const getText = (el) => el?.textContent?.trim().replace(/\s+/g, " ") || "";

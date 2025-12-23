@@ -7,38 +7,26 @@ export default function CommunityPage() {
   const topics = [
     {
       title: "UC Berkeley Transfers",
-      posts: 234,
-      members: 1200,
       description: "Connect with students transferring to UC Berkeley"
     },
     {
       title: "UCLA Transfers",
-      posts: 189,
-      members: 980,
       description: "Share experiences and advice for UCLA transfers"
     },
     {
       title: "CS/Engineering Transfers",
-      posts: 156,
-      members: 750,
       description: "Computer Science and Engineering transfer discussions"
     },
     {
       title: "Pre-Med Transfers",
-      posts: 98,
-      members: 420,
       description: "Pre-medical track transfer student community"
     },
     {
       title: "Application Help",
-      posts: 312,
-      members: 1500,
       description: "Get help with your UC/CSU applications"
     },
     {
       title: "General Discussion",
-      posts: 445,
-      members: 2100,
       description: "General transfer questions and discussions"
     }
   ];
@@ -79,17 +67,7 @@ export default function CommunityPage() {
                 <CardDescription>{topic.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    {topic.posts} posts
-                  </div>
-                  <div className="flex items-center">
-                    <Users className="h-4 w-4 mr-2" />
-                    {topic.members} members
-                  </div>
-                </div>
-                <Button variant="outline" className="w-full mt-4">
+                <Button variant="default" className="w-full">
                   Join Discussion
                 </Button>
               </CardContent>

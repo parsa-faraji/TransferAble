@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, ArrowLeft, Plus, X, GraduationCap, BookOpen, University, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, Plus, X, GraduationCap, BookOpen, University, CheckCircle2, Sparkles, AlertCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UniversityImage } from "@/components/ui/university-image";
 
@@ -76,6 +76,8 @@ export function OnboardingForm() {
   const [communityColleges, setCommunityColleges] = useState<CollegeOption[]>(FALLBACK_COLLEGES);
   const [universities, setUniversities] = useState<UniversityOption[]>(FALLBACK_UNIVERSITIES);
   const [loadingOptions, setLoadingOptions] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const loadOptions = async () => {
@@ -148,6 +150,9 @@ export function OnboardingForm() {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
     try {
       const response = await fetch("/api/onboarding", {
         method: "POST",
@@ -163,12 +168,21 @@ export function OnboardingForm() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        console.log("Onboarding successful:", data);
         router.push("/dashboard");
+        router.refresh();
       } else {
-        console.error("Failed to save onboarding data");
+        const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+        const message = errorData.error || "Failed to save onboarding data. Please try again.";
+        setErrorMessage(message);
+        console.error("Failed to save onboarding data:", errorData);
       }
     } catch (error) {
       console.error("Error submitting onboarding:", error);
+      setErrorMessage("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -458,12 +472,29 @@ export function OnboardingForm() {
             )}
           </div>
 
+          {/* Error Message */}
+          {errorMessage && (
+            <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-red-800">Unable to complete setup</p>
+                <p className="text-sm text-red-600 mt-1">{errorMessage}</p>
+              </div>
+              <button
+                onClick={() => setErrorMessage(null)}
+                className="text-red-400 hover:text-red-600 transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+
           {/* Navigation */}
           <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
             <Button
               variant="outline"
               onClick={handleBack}
-              disabled={step === 1}
+              disabled={step === 1 || isSubmitting}
               className="transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -471,10 +502,15 @@ export function OnboardingForm() {
             </Button>
             <Button
               onClick={handleNext}
-              disabled={isStepDisabled()}
+              disabled={isStepDisabled() || isSubmitting}
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {step === 4 ? (
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Setting up...
+                </>
+              ) : step === 4 ? (
                 <>
                   Complete Setup
                   <Sparkles className="ml-2 h-4 w-4" />

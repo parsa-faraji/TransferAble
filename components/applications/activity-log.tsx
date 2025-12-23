@@ -197,3 +197,5 @@ export function ActivityLog({ applicationId, activities, onUpdate }: ActivityLog
 
 
 
+
+

@@ -1,0 +1,19 @@
+{
+  "name": "TransferAble - Your Path to Transfer Success",
+  "short_name": "TransferAble",
+  "description": "Smart course planning, personalized mentorship, and application support for community college students transferring to UC, CSU, and private universities.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "productivity"],
+  "lang": "en-US"
+}

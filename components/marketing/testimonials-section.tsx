@@ -16,7 +16,7 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    name: "Maria Rodriguez",
+    name: "Transfer Student",
     from: "Berkeley City College",
     to: "UC Berkeley",
     major: "Computer Science",
@@ -24,7 +24,7 @@ const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    name: "James Chen",
+    name: "Transfer Student",
     from: "Diablo Valley College",
     to: "UCLA",
     major: "Engineering",
@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    name: "Sarah Johnson",
+    name: "Transfer Student",
     from: "Laney College",
     to: "UC San Diego",
     major: "Biology",
@@ -40,7 +40,7 @@ const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    name: "David Kim",
+    name: "Transfer Student",
     from: "Mission College",
     to: "UC Irvine",
     major: "Business",
@@ -48,7 +48,7 @@ const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    name: "Emily Martinez",
+    name: "Transfer Student",
     from: "Los Medanos College",
     to: "UC Santa Barbara",
     major: "Psychology",
@@ -56,7 +56,7 @@ const testimonials: Testimonial[] = [
     rating: 5,
   },
   {
-    name: "Alex Thompson",
+    name: "Transfer Student",
     from: "College of Alameda",
     to: "UC Davis",
     major: "Environmental Science",
@@ -92,8 +92,10 @@ export function TestimonialsSection() {
               <CardContent className="p-6 relative z-10">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold">
-                      {testimonial.name.split(" ").map(n => n[0]).join("")}
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white">
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      </svg>
                     </div>
                   </div>
                   <div className="flex-1">

@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ensureUserRecord } from "@/lib/user";
 
 export async function GET() {
   try {
@@ -8,6 +9,8 @@ export async function GET() {
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const ensuredUser = await ensureUserRecord(user);
 
     const dbUser = await prisma.user.findUnique({
       where: { clerkId: user.id },
@@ -86,9 +89,16 @@ export async function GET() {
       }
     }
 
+    const subscriptionTier = dbUser.subscriptionTier || ensuredUser.subscriptionTier;
+
     return NextResponse.json({
+      subscriptionTier,
       profile: {
         id: dbUser.id,
+        email: dbUser.email,
+        firstName: dbUser.firstName,
+        lastName: dbUser.lastName,
+        subscriptionTier,
         communityCollege: communityCollege
           ? {
               id: communityCollege.id,
@@ -124,6 +134,5 @@ export async function GET() {
     );
   }
 }
-
 
 

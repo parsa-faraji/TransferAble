@@ -14,6 +14,8 @@ import { TrustBadges } from "@/components/marketing/trust-badges";
 import { FAQSection } from "@/components/marketing/faq-section";
 import { SocialProof } from "@/components/marketing/social-proof";
 import { CTABanner } from "@/components/marketing/cta-banner";
+import { Logo } from "@/components/ui/logo";
+import { Mascot } from "@/components/ui/mascot";
 
 export default function HomePage() {
   return (
@@ -25,8 +27,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center">
-              <BookOpen className="h-8 w-8 text-primary-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">TransferAble</span>
+              <Logo size="md" showText={true} />
             </Link>
             <AuthButton />
           </div>
@@ -41,8 +42,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="inline-block mb-6">
-              <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-semibold shadow-lg animate-pulse-glow">
-                🎓 Built by transfer students from UCLA, UC Berkeley & USC
+              <span className="px-4 py-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-semibold shadow-lg border border-blue-200">
+                Built by transfer students from UCLA, UC Berkeley & USC
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in-up drop-shadow-2xl">
@@ -124,6 +125,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Mascot Introduction */}
+      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12">
+            <div className="flex-shrink-0">
+              <Mascot
+                mood="happy"
+                size="lg"
+                showName={true}
+                animated={true}
+              />
+            </div>
+            <div className="text-center md:text-left max-w-2xl">
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Meet Hootie - Your Transfer Companion
+              </h2>
+              <p className="text-xl text-gray-700 mb-6">
+                Your intelligent guide throughout the transfer journey. From planning courses to celebrating acceptance letters,
+                Hootie provides personalized wisdom and encouragement every step of the way.
+              </p>
+              <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-purple-100">
+                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                  <span className="font-medium text-gray-700">Daily Motivation</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-purple-100">
+                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                  <span className="font-medium text-gray-700">Study Tips</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-purple-100">
+                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"></div>
+                  <span className="font-medium text-gray-700">Progress Tracking</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* University Showcase */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -155,11 +195,20 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-cyan-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Everything You Need to Transfer Successfully
-          </h2>
+      <section className="py-20 bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+        <div className="absolute bottom-10 right-10 w-72 h-72 bg-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style={{ animationDelay: "2s" }}></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              Everything You Need to Transfer Successfully
+            </h2>
+            <p className="text-xl text-gray-600">
+              Comprehensive tools designed by transfer students, for transfer students
+            </p>
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <FeatureCard
               icon={<BookOpen className="h-8 w-8 text-primary-600" />}
@@ -210,14 +259,14 @@ export default function HomePage() {
           </div>
           <ImageGallery
             images={[
-              "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&h=600&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1562774053-701939374585?w=800&h=600&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=800&h=600&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1519452575417-564c1401ecc0?w=800&h=600&fit=crop&q=80",
               "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1606851698533-eef7b02f0e27?w=800&h=600&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=600&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&q=80",
             ]}
             title="Campus Gallery"
           />
@@ -247,9 +296,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center mb-4">
-                <BookOpen className="h-6 w-6 text-primary-400" />
-                <span className="ml-2 text-lg font-bold text-white">TransferAble</span>
+              <div className="mb-4">
+                <Logo size="md" showText={true} className="brightness-0 invert" />
               </div>
               <p className="text-sm">
                 Empowering community college students on their transfer journey.

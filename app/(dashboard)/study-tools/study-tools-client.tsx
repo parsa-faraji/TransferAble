@@ -15,6 +15,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useState } from "react";
+import { Mascot, MascotMessages } from "@/components/ui/mascot";
 
 export function StudyToolsClient() {
   const [pomodoroMinutes, setPomodoroMinutes] = useState(25);
@@ -76,7 +77,28 @@ export function StudyToolsClient() {
   ];
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-gradient-to-br from-gray-50 via-purple-50/20 to-pink-50/20 min-h-screen">
+      {/* Mascot Section */}
+      <div className="mb-8">
+        <Card className="border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <Mascot
+                mood="thinking"
+                size="md"
+                showName={false}
+                animated={true}
+              />
+              <div className="flex-1">
+                <p className="text-gray-700 font-medium">
+                  {MascotMessages.tips}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Study Tools & Resources</h1>
         <p className="text-gray-600">

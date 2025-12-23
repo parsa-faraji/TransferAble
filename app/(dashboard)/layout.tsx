@@ -4,6 +4,7 @@ import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { BookOpen, LayoutDashboard, Calendar, Users, FileText, Award, Settings, GraduationCap } from "lucide-react";
 import { HelpCenter } from "@/components/help/help-center";
+import { Logo } from "@/components/ui/logo";
 
 export default async function DashboardLayout({
   children,
@@ -38,8 +39,7 @@ export default async function DashboardLayout({
       <aside className="fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200">
         <div className="flex flex-col h-full">
           <div className="flex items-center h-16 px-6 border-b border-gray-200">
-            <BookOpen className="h-6 w-6 text-primary-600" />
-            <span className="ml-2 text-lg font-bold text-gray-900">TransferAble</span>
+            <Logo size="md" showText={true} />
           </div>
           <nav className="flex-1 px-4 py-6 space-y-1">
             {navItems.map((item) => {

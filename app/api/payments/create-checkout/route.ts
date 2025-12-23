@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ensureUserRecord } from "@/lib/user";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
@@ -28,13 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const dbUser = await prisma.user.findUnique({
-      where: { clerkId: user.id },
-    });
-
-    if (!dbUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
+    const dbUser = await ensureUserRecord(user);
 
     // Create Stripe checkout session
     const stripe = require("stripe")(STRIPE_SECRET_KEY);
@@ -71,5 +66,6 @@ export async function POST(request: Request) {
     );
   }
 }
+
 
 

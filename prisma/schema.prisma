@@ -62,7 +62,6 @@ model CommunityCollege {
   createdAt   DateTime @default(now())
 
   courses     Course[]
-  equivalencies CourseEquivalency[]
 }
 
 model University {
@@ -76,7 +75,6 @@ model University {
   createdAt   DateTime @default(now())
 
   majors      Major[]
-  equivalencies CourseEquivalency[]
   applications Application[]
   mentors     MentorProfile[]
 }
@@ -129,31 +127,8 @@ model Course {
   createdAt   DateTime @default(now())
 
   completions CourseCompletion[]
-  equivalencies CourseEquivalency[]
 
   @@unique([communityCollegeId, code])
-  @@index([communityCollegeId])
-}
-
-model CourseEquivalency {
-  id          String   @id @default(cuid())
-  courseId    String
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  universityId String
-  university  University @relation(fields: [universityId], references: [id], onDelete: Cascade)
-  communityCollegeId String
-  communityCollege CommunityCollege @relation(fields: [communityCollegeId], references: [id], onDelete: Cascade)
-  equivalentCourseCode String // e.g., "MATH 1A" at UC Berkeley
-  equivalentCourseName String
-  isVerified  Boolean  @default(false)
-  verifiedBy String?  // User ID who verified
-  verifiedAt  DateTime?
-  source     String   @default("ASSIST") // ASSIST, USER_GENERATED, COUNSELOR
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([courseId])
-  @@index([universityId])
   @@index([communityCollegeId])
 }
 

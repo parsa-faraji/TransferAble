@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface ImageGalleryProps {
   images: string[];
@@ -30,10 +31,11 @@ export function ImageGallery({ images, title, className }: ImageGalleryProps) {
                 {title || "Gallery"} {index + 1}
               </div>
             ) : (
-              <img
+              <Image
                 src={image}
                 alt={`${title || "Gallery"} image ${index + 1}`}
-                className="w-full h-full object-cover group-hover:brightness-110 transition-all duration-300"
+                fill
+                className="object-cover group-hover:brightness-110 transition-all duration-300"
                 loading="lazy"
                 onError={() =>
                   setFailedImages((prev) => ({
@@ -76,18 +78,20 @@ export function ImageGallery({ images, title, className }: ImageGalleryProps) {
               {title || "Gallery"} {selectedIndex + 1}
             </div>
           ) : (
-            <img
-              src={images[selectedIndex]}
-              alt={`${title || "Gallery"} image ${selectedIndex + 1}`}
-              className="max-w-full max-h-full object-contain"
-              onClick={(e) => e.stopPropagation()}
-              onError={() =>
-                setFailedImages((prev) => ({
-                  ...prev,
-                  [selectedIndex]: true,
-                }))
-              }
-            />
+            <div className="relative w-full h-full max-w-[90vw] max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+              <Image
+                src={images[selectedIndex]}
+                alt={`${title || "Gallery"} image ${selectedIndex + 1}`}
+                fill
+                className="object-contain"
+                onError={() =>
+                  setFailedImages((prev) => ({
+                    ...prev,
+                    [selectedIndex]: true,
+                  }))
+                }
+              />
+            </div>
           )}
           <button
             className="absolute right-4 text-white hover:text-gray-300 z-10"
@@ -105,5 +109,7 @@ export function ImageGallery({ images, title, className }: ImageGalleryProps) {
     </>
   );
 }
+
+
 
 

@@ -8,6 +8,7 @@ import { RequestMentorForm } from "@/components/mentors/request-mentor-form";
 import { AskTemplates } from "@/components/mentors/ask-templates";
 import { ChatInterface } from "@/components/mentors/chat-interface";
 import { UniversityImage } from "@/components/ui/university-image";
+import { Mascot, MascotMessages } from "@/components/ui/mascot";
 
 interface Mentor {
   id: string;
@@ -88,7 +89,28 @@ export function MentorsClient() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-gradient-to-br from-gray-50 via-cyan-50/20 to-blue-50/20 min-h-screen">
+      {/* Mascot Section */}
+      <div className="mb-8">
+        <Card className="border-2 border-cyan-200 bg-gradient-to-br from-cyan-50 via-white to-blue-50">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <Mascot
+                mood="happy"
+                size="md"
+                showName={false}
+                animated={true}
+              />
+              <div className="flex-1">
+                <p className="text-gray-700 font-medium">
+                  {MascotMessages.mentorConnection}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Find a Mentor</h1>
         <p className="text-gray-600">

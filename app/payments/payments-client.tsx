@@ -20,7 +20,9 @@ export function PaymentsClient() {
       const response = await fetch("/api/user/profile");
       if (response.ok) {
         const data = await response.json();
-        setCurrentPlan(data.subscriptionTier || "FREE");
+        setCurrentPlan(
+          data.subscriptionTier || data.profile?.subscriptionTier || "FREE"
+        );
       }
     } catch (error) {
       console.error("Error loading subscription:", error);
@@ -220,7 +222,7 @@ export function PaymentsClient() {
 
         <div className="mt-12 text-center">
           <p className="text-sm text-gray-600 mb-4">
-            💡 <strong>Student Discount:</strong> Get 50% off Premium with a valid .edu email address
+            <strong>Student Discount:</strong> Get 50% off Premium with a valid .edu email address
           </p>
           <p className="text-sm text-gray-600">
             Questions? Contact us at{" "}
@@ -233,5 +235,6 @@ export function PaymentsClient() {
     </div>
   );
 }
+
 
 

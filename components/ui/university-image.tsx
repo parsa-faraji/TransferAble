@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { GraduationCap } from "lucide-react";
+import Image from "next/image";
 
 interface UniversityImageProps {
   name: string;
@@ -13,19 +14,14 @@ interface UniversityImageProps {
   animated?: boolean;
 }
 
-// Real campus images using Wikimedia Commons (more reliable)
+// Real campus images using local photos
 const universityImages: Record<string, string> = {
-  "UC Berkeley": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/UC_Berkeley_campus_aerial_view.jpg/800px-UC_Berkeley_campus_aerial_view.jpg",
-  "UCLA": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/UCLA_Royce_Hall.jpg/800px-UCLA_Royce_Hall.jpg",
-  "UC San Diego": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/UC_San_Diego_Geisel_Library.jpg/800px-UC_San_Diego_Geisel_Library.jpg",
-  "UC Santa Barbara": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/UC_Santa_Barbara_campus.jpg/800px-UC_Santa_Barbara_campus.jpg",
-  "UC Davis": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/UC_Davis_campus_aerial.jpg/800px-UC_Davis_campus_aerial.jpg",
-  "UC Irvine": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/UC_Irvine_campus.jpg/800px-UC_Irvine_campus.jpg",
-  "UC Santa Cruz": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/UC_Santa_Cruz_campus.jpg/800px-UC_Santa_Cruz_campus.jpg",
-  "UC Riverside": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/UC_Riverside_campus.jpg/800px-UC_Riverside_campus.jpg",
-  "UC Merced": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/UC_Merced_campus.jpg/800px-UC_Merced_campus.jpg",
-  "Stanford": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Stanford_University_campus_%28aerial_view%29.jpg/800px-Stanford_University_campus_%28aerial_view%29.jpg",
-  "USC": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/USC_Campus_Aerial_View.jpg/800px-USC_Campus_Aerial_View.jpg",
+  "UC Berkeley": "/UC Berkeley.jpeg",
+  "UCLA": "/UCLA.jpeg",
+  "UC San Diego": "/UC San Diego.jpeg",
+  "UC Santa Barbara": "/UC Santa Barbara.jpeg",
+  "UC Davis": "/UC Davis.jpeg",
+  "Stanford": "/Stanford.jpeg",
 };
 
 // Fallback gradient colors
@@ -87,10 +83,11 @@ export function UniversityImage({
     >
       {imageUrl && !imageError ? (
         <>
-          <img
+          <Image
             src={imageUrl}
             alt={name}
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            className="object-cover"
             onError={() => setImageError(true)}
             loading="lazy"
           />

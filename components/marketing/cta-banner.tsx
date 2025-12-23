@@ -38,17 +38,30 @@ export function CTABanner() {
             size="lg"
             variant="outline"
             asChild
-            className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm"
+            className="border-2 border-white bg-white/20 text-white hover:bg-white hover:text-blue-600 backdrop-blur-sm transition-all shadow-lg"
           >
             <Link href="/demo">Watch Demo</Link>
           </Button>
         </div>
-        <p className="mt-6 text-sm text-blue-100">
-          ✓ No credit card required • ✓ Free forever • ✓ Cancel anytime
-        </p>
+        <div className="mt-6 flex items-center justify-center gap-6 text-sm text-blue-100">
+          <span className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+            No credit card required
+          </span>
+          <span className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+            Free forever
+          </span>
+          <span className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+            Cancel anytime
+          </span>
+        </div>
       </div>
     </section>
   );
 }
+
+
 
 

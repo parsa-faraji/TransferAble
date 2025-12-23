@@ -2,37 +2,38 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import NextImage from "next/image";
 
 const universityImages = [
   {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/UC_Berkeley_campus_aerial_view.jpg/2560px-UC_Berkeley_campus_aerial_view.jpg",
+    url: "/UC Berkeley.jpeg",
     name: "UC Berkeley",
-    credit: "Wikimedia Commons",
+    credit: "Official Photo",
   },
   {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Stanford_University_campus_%28aerial_view%29.jpg/2560px-Stanford_University_campus_%28aerial_view%29.jpg",
+    url: "/Stanford.jpeg",
     name: "Stanford University",
-    credit: "Wikimedia Commons",
+    credit: "Official Photo",
   },
   {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/UCLA_Royce_Hall.jpg/2560px-UCLA_Royce_Hall.jpg",
+    url: "/UCLA.jpeg",
     name: "UCLA",
-    credit: "Wikimedia Commons",
+    credit: "Official Photo",
   },
   {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/UC_San_Diego_Geisel_Library.jpg/2560px-UC_San_Diego_Geisel_Library.jpg",
+    url: "/UC San Diego.jpeg",
     name: "UC San Diego",
-    credit: "Wikimedia Commons",
+    credit: "Official Photo",
   },
   {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/USC_Campus_Aerial_View.jpg/2560px-USC_Campus_Aerial_View.jpg",
-    name: "USC",
-    credit: "Wikimedia Commons",
+    url: "/UC Davis.jpeg",
+    name: "UC Davis",
+    credit: "Official Photo",
   },
   {
-    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/UC_Santa_Barbara_campus.jpg/2560px-UC_Santa_Barbara_campus.jpg",
+    url: "/UC Santa Barbara.jpeg",
     name: "UC Santa Barbara",
-    credit: "Wikimedia Commons",
+    credit: "Official Photo",
   },
 ];
 
@@ -59,23 +60,26 @@ export function RotatingBackground() {
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden -z-10">
       {universityImages.map((image, index) => (
         <div
           key={index}
           className={cn(
             "absolute inset-0 transition-opacity duration-2000 ease-in-out",
-            index === currentIndex ? "opacity-100 z-0" : "opacity-0 z-0"
+            index === currentIndex ? "opacity-100" : "opacity-0"
           )}
         >
-          <img
+          <NextImage
             src={image.url}
             alt={image.name}
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            className="object-cover"
             style={{
               filter: "brightness(0.5) saturate(1.1)",
             }}
-            loading="eager"
+            priority={index === 0}
+            quality={90}
+            unoptimized={false}
           />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-purple-900/30 to-cyan-900/40" />
         </div>

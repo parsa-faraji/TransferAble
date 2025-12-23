@@ -90,3 +90,5 @@ echo "⚠️  REMINDER: Never commit your .env file or API keys!"
 echo "   Your Stripe key should stay in .env (local only)"
 
 
+
+
