@@ -44,6 +44,14 @@ export async function POST(request: Request) {
         },
       ],
       mode: "subscription",
+      subscription_data: {
+        trial_period_days: 14, // 14-day free trial
+        metadata: {
+          userId: dbUser.id,
+          clerkId: user.id,
+          planType: planType || "PREMIUM",
+        },
+      },
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/payments/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/payments/cancel`,
       metadata: {

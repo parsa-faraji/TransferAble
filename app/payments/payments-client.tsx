@@ -58,11 +58,8 @@ export function PaymentsClient() {
     }
   };
 
-  // Stripe Price IDs - Replace with your actual Stripe price IDs
-  const STRIPE_PRICE_IDS = {
-    PREMIUM_MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY || "price_premium_monthly",
-    PREMIUM_YEARLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY || "price_premium_yearly",
-  };
+  // Stripe Price ID - Replace with your actual Stripe price ID from dashboard
+  const PREMIUM_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PREMIUM_PRICE_ID || "price_YOUR_PRICE_ID_HERE";
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
@@ -90,30 +87,26 @@ export function PaymentsClient() {
               <CardDescription>Perfect for getting started</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">$0</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-gray-600">/forever</span>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Course planning & equivalency database</span>
+                  <span>Basic course planning for 2 universities</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Automated timeline generator</span>
+                  <span>ASSIST.org integration guide</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>1 mentor connection</span>
+                  <span>Application deadline tracking</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>PIQ essay editor</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-500" />
-                  <span>Application tracking</span>
+                  <span>Transfer timeline planner</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
@@ -145,17 +138,20 @@ export function PaymentsClient() {
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
                 <Crown className="h-5 w-5 text-yellow-500" />
-                <CardTitle>Premium</CardTitle>
+                <CardTitle>Premium Annual</CardTitle>
                 {currentPlan === "PREMIUM" && (
                   <span className="ml-auto px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
                     Active
                   </span>
                 )}
               </div>
-              <CardDescription>For serious transfer students</CardDescription>
+              <CardDescription>Everything you need for transfer success</CardDescription>
               <div className="mt-4">
-                <span className="text-4xl font-bold">$9.99</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-4xl font-bold">$29</span>
+                <span className="text-gray-600">/year</span>
+              </div>
+              <div className="text-sm text-green-600 font-medium mt-1">
+                Save $91 vs monthly pricing
               </div>
             </CardHeader>
             <CardContent>
@@ -166,15 +162,15 @@ export function PaymentsClient() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Unlimited mentor connections</span>
+                  <span>Unlimited university planning</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>AI-powered essay feedback</span>
+                  <span>TAG (Transfer Admission Guarantee) tracker</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Transcript parsing & audit</span>
+                  <span>AI-powered transfer predictions</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
@@ -182,11 +178,11 @@ export function PaymentsClient() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Advanced analytics & insights</span>
+                  <span>SMS deadline reminders</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Priority customer support</span>
+                  <span>PIQ essay editor & feedback</span>
                 </li>
               </ul>
               {currentPlan === "PREMIUM" ? (
@@ -197,7 +193,7 @@ export function PaymentsClient() {
               ) : (
                 <Button
                   className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
-                  onClick={() => handleSubscribe("PREMIUM", STRIPE_PRICE_IDS.PREMIUM_MONTHLY)}
+                  onClick={() => handleSubscribe("PREMIUM", PREMIUM_PRICE_ID)}
                   disabled={loading}
                 >
                   {loading ? (
@@ -208,13 +204,13 @@ export function PaymentsClient() {
                   ) : (
                     <>
                       <CreditCard className="mr-2 h-4 w-4" />
-                      Subscribe to Premium
+                      Start Free Trial
                     </>
                   )}
                 </Button>
               )}
               <p className="text-xs text-center text-gray-500 mt-2">
-                7-day free trial, cancel anytime
+                14-day free trial, cancel anytime
               </p>
             </CardContent>
           </Card>
