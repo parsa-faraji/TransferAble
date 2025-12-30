@@ -30,6 +30,7 @@ export function PaymentsClient() {
   };
 
   const handleSubscribe = async (planType: string, priceId: string) => {
+    console.log("🔵 Button clicked! Price ID:", priceId);
     setLoading(true);
     try {
       const response = await fetch("/api/payments/create-checkout", {
