@@ -45,81 +45,9 @@ export async function GET() {
       }
     }
 
-    // Fetch required courses based on user's major and target universities
+    // Course equivalencies feature temporarily disabled
+    // Users should refer to ASSIST.org for course equivalencies
     const courses: any[] = [];
-    const completedCourseIds = new Set(
-      dbUser.completedCourses.map((cc) => cc.courseId)
-    );
-
-    // Get user's target universities
-    const targetUniversityIds = resolvedUniversityIds;
-
-    if (targetUniversityIds.length > 0) {
-      const ccFilter = dbUser.communityCollege
-        ? {
-            OR: [
-              { code: dbUser.communityCollege },
-              { id: dbUser.communityCollege },
-            ],
-          }
-        : undefined;
-
-      // Fetch course equivalencies for all target universities
-      const equivalencies = await prisma.courseEquivalency.findMany({
-        where: {
-          universityId: { in: targetUniversityIds },
-          communityCollege: ccFilter,
-        },
-        include: {
-          course: {
-            include: {
-              communityCollege: true,
-            },
-          },
-          university: true,
-        },
-      });
-
-      // Get major requirements if user has a major
-      let majorRequirements: any[] = [];
-      if (dbUser.currentMajor) {
-        const majors = await prisma.major.findMany({
-          where: {
-            universityId: { in: targetUniversityIds },
-            name: { contains: dbUser.currentMajor, mode: "insensitive" },
-          },
-          include: {
-            requirements: true,
-          },
-        });
-
-        majorRequirements = majors.flatMap((m) => m.requirements);
-      }
-
-      // Transform equivalencies to course format
-      for (const eq of equivalencies) {
-        const isCompleted = completedCourseIds.has(eq.courseId);
-        const isRequired = majorRequirements.some(
-          (req) => req.courseCode === eq.equivalentCourseCode
-        );
-
-        courses.push({
-          id: eq.id,
-          courseId: eq.courseId,
-          courseCode: eq.course.code,
-          courseName: eq.course.name,
-          units: eq.course.units,
-          universityId: eq.universityId,
-          universityName: eq.university.name,
-          equivalentCourseCode: eq.equivalentCourseCode,
-          equivalentCourseName: eq.equivalentCourseName,
-          isVerified: eq.isVerified,
-          isCompleted,
-          isRequired,
-          status: isCompleted ? "completed" : isRequired ? "required" : "optional",
-        });
-      }
-    }
 
     return NextResponse.json({
       courses,
