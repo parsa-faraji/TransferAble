@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { StatCard } from "@/components/ui/stat-card";
 import { AnimatedProgress } from "@/components/ui/animated-progress";
 import { BookOpen, Calendar, Users, TrendingUp, Target, Sparkles, Rocket, Award, CheckCircle2, Clock, ArrowRight } from "lucide-react";
-import { Mascot } from "@/components/ui/mascot";
 import { TransferPrediction } from "@/components/transfer-prediction";
 import { prisma } from "@/lib/prisma";
 
@@ -292,32 +291,6 @@ export default async function DashboardPage() {
           </Card>
         </div>
 
-        {/* Mascot Welcome Section */}
-        <div className="mb-8">
-          <div className="overflow-hidden rounded-3xl bg-gradient-to-br from-blue-50/50 via-white/50 to-cyan-50/50 backdrop-blur-sm hover:shadow-xl transition-all duration-300 p-8 border border-blue-100/50">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <Mascot
-                message="Hey there! Ready to start your transfer journey? I'm here to help! 🎓"
-                mood="excited"
-                size="lg"
-                showName={true}
-                animated={true}
-              />
-              <div className="flex-1 text-center md:text-left">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Meet Hootie! 🦉</h3>
-                <p className="text-gray-600 mb-4">
-                  Your wise transfer companion! I'll be here to guide you through your journey, celebrate your wins,
-                  and keep you motivated every step of the way!
-                </p>
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">📚 Course Planning</span>
-                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">💡 Tips & Tricks</span>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">🎯 Goal Tracking</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Additional Info Cards */}
         <div className="grid gap-6 md:grid-cols-3 mb-8">

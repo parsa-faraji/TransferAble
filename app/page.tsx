@@ -15,7 +15,6 @@ import { FAQSection } from "@/components/marketing/faq-section";
 import { SocialProof } from "@/components/marketing/social-proof";
 import { CTABanner } from "@/components/marketing/cta-banner";
 import { Logo } from "@/components/ui/logo";
-import { Mascot } from "@/components/ui/mascot";
 
 export default function HomePage() {
   return (
@@ -118,44 +117,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Mascot Introduction */}
-      <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-            <div className="flex-shrink-0">
-              <Mascot
-                mood="happy"
-                size="lg"
-                showName={true}
-                animated={true}
-              />
-            </div>
-            <div className="text-center md:text-left max-w-2xl">
-              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Meet Hootie - Your Transfer Companion
-              </h2>
-              <p className="text-xl text-gray-700 mb-6">
-                Your intelligent guide throughout the transfer journey. From planning courses to celebrating acceptance letters,
-                Hootie provides personalized wisdom and encouragement every step of the way.
-              </p>
-              <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-purple-100">
-                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"></div>
-                  <span className="font-medium text-gray-700">Daily Motivation</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-purple-100">
-                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"></div>
-                  <span className="font-medium text-gray-700">Study Tips</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-md border border-purple-100">
-                  <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"></div>
-                  <span className="font-medium text-gray-700">Progress Tracking</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* University Showcase */}
       <section className="py-20 bg-white">

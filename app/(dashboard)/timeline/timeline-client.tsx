@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, CheckCircle2, Clock, AlertCircle, FileText } from "lucide-react";
+import { Calendar, CheckCircle2, Clock, AlertCircle, FileText, Target, Zap, TrendingUp } from "lucide-react";
 import { AddMilestoneForm } from "@/components/timeline/add-milestone-form";
 import { Button } from "@/components/ui/button";
-import { Mascot, MascotMessages } from "@/components/ui/mascot";
 
 interface Milestone {
   id: string;
@@ -80,25 +79,48 @@ export function TimelineClient() {
   };
 
   if (loading) {
-    return <div className="p-8">Loading...</div>;
+    return (
+      <div className="p-8 flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
   }
+
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case "APPLICATION_DEADLINE":
+        return "from-red-500 to-orange-500";
+      case "ESSAY_SUBMISSION":
+        return "from-blue-500 to-cyan-500";
+      case "EXAM_REGISTRATION":
+        return "from-orange-500 to-yellow-500";
+      case "TRANSCRIPT_REQUEST":
+        return "from-green-500 to-emerald-500";
+      case "COURSE_ENROLLMENT":
+        return "from-purple-500 to-pink-500";
+      case "FINANCIAL_AID":
+        return "from-yellow-500 to-amber-500";
+      default:
+        return "from-gray-500 to-slate-500";
+    }
+  };
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "APPLICATION_DEADLINE":
-        return <AlertCircle className="h-5 w-5 text-red-600" />;
+        return <Target className="h-5 w-5" />;
       case "ESSAY_SUBMISSION":
-        return <FileText className="h-5 w-5 text-blue-600" />;
+        return <FileText className="h-5 w-5" />;
       case "EXAM_REGISTRATION":
-        return <Clock className="h-5 w-5 text-orange-600" />;
+        return <Clock className="h-5 w-5" />;
       case "TRANSCRIPT_REQUEST":
-        return <CheckCircle2 className="h-5 w-5 text-green-600" />;
+        return <CheckCircle2 className="h-5 w-5" />;
       case "COURSE_ENROLLMENT":
-        return <Calendar className="h-5 w-5 text-purple-600" />;
+        return <Calendar className="h-5 w-5" />;
       case "FINANCIAL_AID":
-        return <AlertCircle className="h-5 w-5 text-yellow-600" />;
+        return <Zap className="h-5 w-5" />;
       default:
-        return <Calendar className="h-5 w-5 text-gray-600" />;
+        return <AlertCircle className="h-5 w-5" />;
     }
   };
 
@@ -110,179 +132,246 @@ export function TimelineClient() {
     return days;
   };
 
-  const upcoming = data.milestones.filter((m) => !m.isCompleted);
-  const completed = data.milestones.filter((m) => m.isCompleted);
+  const sortedMilestones = [...data.milestones].sort((a, b) => {
+    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+  });
+
+  const upcoming = sortedMilestones.filter((m) => !m.isCompleted);
+  const completed = sortedMilestones.filter((m) => m.isCompleted);
+  const progress = data.milestones.length > 0 ? (completed.length / data.milestones.length) * 100 : 0;
 
   return (
-    <div className="p-8 bg-gradient-to-br from-gray-50 via-orange-50/20 to-red-50/20 min-h-screen">
-      {/* Mascot Section */}
+    <div className="p-8 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 min-h-screen">
+      {/* Header */}
       <div className="mb-8">
-        <Card className="border-2 border-orange-200 bg-gradient-to-br from-orange-50 via-white to-amber-50">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <Mascot
-                mood="celebrating"
-                size="md"
-                showName={false}
-                animated={true}
-              />
-              <div className="flex-1">
-                <p className="text-gray-700 font-medium">
-                  {MascotMessages.deadlineReminder}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="mb-8 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Transfer Timeline</h1>
-          <p className="text-gray-600">
-            Track important deadlines and milestones for your transfer journey
-          </p>
-        </div>
-        <div className="flex gap-2">
-          {!data.timeline && (
-            <Button onClick={generateTimeline} variant="outline" className="hover:scale-105 transition-transform">
-              Generate Timeline
-            </Button>
-          )}
-          {data.timeline && (
-            <AddMilestoneForm timelineId={data.timeline.id} onSuccess={fetchTimeline} />
-          )}
-        </div>
-      </div>
-
-      {/* Timeline Overview */}
-      <div className="grid gap-6 md:grid-cols-3 mb-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Upcoming Deadlines</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{upcoming.length}</div>
-            <p className="text-xs text-gray-500 mt-1">Next 90 days</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Completed</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{completed.length}</div>
-            <p className="text-xs text-gray-500 mt-1">Milestones</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium">Target Transfer</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {data.timeline?.targetTransferTerm || "Not set"}
-            </div>
-            <p className="text-xs text-gray-500 mt-1">Term</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Upcoming Milestones */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>Upcoming Milestones</CardTitle>
-          <CardDescription>Important dates and deadlines</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {upcoming.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">
-              No upcoming milestones. Add one to get started!
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              Transfer Timeline
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Stay on track with your transfer journey milestones
             </p>
-          ) : (
-            <div className="space-y-4">
-              {upcoming.map((milestone) => {
-                const daysUntil = getDaysUntil(milestone.dueDate);
-                const isUrgent = daysUntil <= 30;
-                return (
-                  <div
-                    key={milestone.id}
-                    className={`flex items-start space-x-4 p-4 border rounded-lg ${
-                      isUrgent ? "border-red-200 bg-red-50" : "border-gray-200"
-                    }`}
-                  >
-                    {getCategoryIcon(milestone.category)}
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-semibold text-gray-900">{milestone.title}</h3>
-                        <span className={`text-sm font-medium ${
-                          isUrgent ? "text-red-600" : "text-gray-600"
-                        }`}>
-                          {daysUntil > 0 ? `${daysUntil} days` : "Due today"}
-                        </span>
-                      </div>
-                      {milestone.description && (
-                        <p className="text-sm text-gray-600 mt-1">{milestone.description}</p>
-                      )}
-                      <p className="text-xs text-gray-500 mt-2">
-                        Due: {new Date(milestone.dueDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleMilestoneToggle(milestone.id, milestone.isCompleted)}
-                    >
-                      Mark Complete
-                    </Button>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+          </div>
+          <div className="flex gap-3">
+            {!data.timeline && (
+              <Button
+                onClick={generateTimeline}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              >
+                <TrendingUp className="mr-2 h-4 w-4" />
+                Generate Timeline
+              </Button>
+            )}
+            {data.timeline && (
+              <AddMilestoneForm timelineId={data.timeline.id} onSuccess={fetchTimeline} />
+            )}
+          </div>
+        </div>
 
-      {/* Completed Milestones */}
-      {completed.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Completed</CardTitle>
-            <CardDescription>Recently completed milestones</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {completed.map((milestone) => (
-                <div
-                  key={milestone.id}
-                  className="flex items-start space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50"
-                >
-                  <CheckCircle2 className="h-5 w-5 text-green-600" />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold text-gray-900 line-through">
-                        {milestone.title}
-                      </h3>
-                      <span className="text-sm text-green-600">Completed</span>
-                    </div>
-                    {milestone.description && (
-                      <p className="text-sm text-gray-600 mt-1">{milestone.description}</p>
-                    )}
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleMilestoneToggle(milestone.id, milestone.isCompleted)}
-                  >
-                    Undo
-                  </Button>
+        {/* Stats Cards */}
+        <div className="grid gap-4 md:grid-cols-4">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-blue-100 text-sm font-medium">Target Term</p>
+                  <p className="text-2xl font-bold mt-1">
+                    {data.timeline?.targetTransferTerm || "Not Set"}
+                  </p>
                 </div>
-              ))}
-            </div>
+                <Calendar className="h-10 w-10 text-blue-100 opacity-50" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-purple-100 text-sm font-medium">Upcoming</p>
+                  <p className="text-2xl font-bold mt-1">{upcoming.length}</p>
+                </div>
+                <Clock className="h-10 w-10 text-purple-100 opacity-50" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-emerald-500 text-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-green-100 text-sm font-medium">Completed</p>
+                  <p className="text-2xl font-bold mt-1">{completed.length}</p>
+                </div>
+                <CheckCircle2 className="h-10 w-10 text-green-100 opacity-50" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-500 to-yellow-500 text-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-orange-100 text-sm font-medium">Progress</p>
+                  <p className="text-2xl font-bold mt-1">{Math.round(progress)}%</p>
+                </div>
+                <TrendingUp className="h-10 w-10 text-orange-100 opacity-50" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Timeline Visualization */}
+      {upcoming.length === 0 && completed.length === 0 ? (
+        <Card className="border-2 border-dashed border-gray-300">
+          <CardContent className="p-12 text-center">
+            <Calendar className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Milestones Yet</h3>
+            <p className="text-gray-600 mb-6">
+              Start tracking your transfer journey by adding important deadlines and milestones
+            </p>
+            {data.timeline ? (
+              <AddMilestoneForm timelineId={data.timeline.id} onSuccess={fetchTimeline} />
+            ) : (
+              <Button onClick={generateTimeline} className="bg-gradient-to-r from-blue-600 to-purple-600">
+                Generate Timeline
+              </Button>
+            )}
           </CardContent>
         </Card>
+      ) : (
+        <div className="space-y-6">
+          {/* Upcoming Milestones - Visual Timeline */}
+          {upcoming.length > 0 && (
+            <Card className="border-0 shadow-xl">
+              <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b">
+                <CardTitle className="text-2xl">Upcoming Milestones</CardTitle>
+                <CardDescription>Your roadmap to transfer success</CardDescription>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  {upcoming.map((milestone, index) => {
+                    const daysUntil = getDaysUntil(milestone.dueDate);
+                    const isUrgent = daysUntil <= 14;
+                    const isSoon = daysUntil <= 30 && daysUntil > 14;
+
+                    return (
+                      <div key={milestone.id} className="relative">
+                        {/* Timeline connector line */}
+                        {index < upcoming.length - 1 && (
+                          <div className="absolute left-6 top-16 bottom-0 w-0.5 bg-gradient-to-b from-gray-300 to-transparent" />
+                        )}
+
+                        <div className={`relative flex gap-4 p-5 rounded-xl border-2 transition-all hover:shadow-lg ${
+                          isUrgent
+                            ? 'bg-gradient-to-r from-red-50 to-orange-50 border-red-300'
+                            : isSoon
+                            ? 'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-300'
+                            : 'bg-white border-gray-200 hover:border-blue-300'
+                        }`}>
+                          {/* Icon */}
+                          <div className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${getCategoryColor(milestone.category)} flex items-center justify-center text-white shadow-lg`}>
+                            {getCategoryIcon(milestone.category)}
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-4 mb-2">
+                              <h3 className="text-lg font-bold text-gray-900">
+                                {milestone.title}
+                              </h3>
+                              <div className="flex flex-col items-end gap-1">
+                                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                                  isUrgent
+                                    ? 'bg-red-100 text-red-700'
+                                    : isSoon
+                                    ? 'bg-yellow-100 text-yellow-700'
+                                    : 'bg-blue-100 text-blue-700'
+                                }`}>
+                                  {daysUntil > 0 ? `${daysUntil} days left` : daysUntil === 0 ? 'Due today!' : `${Math.abs(daysUntil)} days overdue`}
+                                </span>
+                              </div>
+                            </div>
+
+                            {milestone.description && (
+                              <p className="text-gray-600 mb-3 text-sm leading-relaxed">
+                                {milestone.description}
+                              </p>
+                            )}
+
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2 text-sm text-gray-500">
+                                <Calendar className="h-4 w-4" />
+                                <span>{new Date(milestone.dueDate).toLocaleDateString('en-US', {
+                                  month: 'long',
+                                  day: 'numeric',
+                                  year: 'numeric'
+                                })}</span>
+                              </div>
+
+                              <Button
+                                onClick={() => handleMilestoneToggle(milestone.id, milestone.isCompleted)}
+                                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
+                                size="sm"
+                              >
+                                <CheckCircle2 className="mr-2 h-4 w-4" />
+                                Mark Complete
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Completed Milestones */}
+          {completed.length > 0 && (
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b">
+                <CardTitle className="flex items-center gap-2">
+                  <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  Completed ({completed.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-3">
+                  {completed.map((milestone) => (
+                    <div
+                      key={milestone.id}
+                      className="flex items-center gap-4 p-4 rounded-lg bg-gray-50 border border-gray-200"
+                    >
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                        <CheckCircle2 className="h-5 w-5 text-green-600" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-500 line-through">
+                          {milestone.title}
+                        </h4>
+                        <p className="text-xs text-gray-400">
+                          Completed {new Date(milestone.dueDate).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleMilestoneToggle(milestone.id, milestone.isCompleted)}
+                      >
+                        Undo
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       )}
     </div>
   );
 }
-

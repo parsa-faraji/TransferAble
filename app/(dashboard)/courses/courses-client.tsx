@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, CheckCircle2, Clock, AlertCircle, Sparkles, Loader2 } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { CourseNotifications } from "@/components/courses/course-notifications";
-import { Mascot, MascotMessages } from "@/components/ui/mascot";
 
 export function CoursesClient() {
   const { user } = useUser();
@@ -139,27 +138,6 @@ export function CoursesClient() {
 
   return (
     <div className="p-8 bg-gradient-to-br from-gray-50 via-blue-50/20 to-cyan-50/20 min-h-screen">
-      {/* Mascot Section */}
-      <div className="mb-8">
-        <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 via-white to-emerald-50">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <Mascot
-                mood="encouraging"
-                size="md"
-                showName={false}
-                animated={true}
-              />
-              <div className="flex-1">
-                <p className="text-gray-700 font-medium">
-                  {MascotMessages.coursePlanning}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
       <div className="mb-8">
         <div className="flex justify-between items-start">
           <div>
