@@ -47,12 +47,12 @@ export default function HomePage() {
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in-up drop-shadow-2xl">
-              Your Clear Path to
-              <span className="block bg-gradient-to-r from-yellow-300 to-cyan-300 bg-clip-text text-transparent"> Transfer Success</span>
+              Navigate ASSIST.org
+              <span className="block bg-gradient-to-r from-yellow-300 to-cyan-300 bg-clip-text text-transparent">With Confidence</span>
             </h1>
             <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto animate-fade-in-up drop-shadow-lg" style={{ animationDelay: "0.2s" }}>
-              Smart course planning, personalized mentorship, and application support
-              for community college students transferring to UC, CSU, and private universities.
+              The easiest way to plan your California community college transfer.
+              Course equivalencies, TAG tracking, and application deadlines—all in one place.
             </p>
             <div className="flex justify-center space-x-4 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
               <Button size="lg" asChild className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
@@ -69,16 +69,16 @@ export default function HomePage() {
             {/* Feature Highlights */}
             <div className="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Free</div>
-                <div className="text-sm text-gray-600 mt-1">Always Free to Use</div>
+                <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Simple</div>
+                <div className="text-sm text-white/90 mt-1">ASSIST.org Made Easy</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Real</div>
-                <div className="text-sm text-gray-600 mt-1">Built by Transfer Students</div>
+                <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">TAG</div>
+                <div className="text-sm text-white/90 mt-1">Guaranteed Admission Tracker</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Smart</div>
-                <div className="text-sm text-gray-600 mt-1">AI-Powered Tools</div>
+                <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">$29</div>
+                <div className="text-sm text-white/90 mt-1">Per Year, Not Per Month</div>
               </div>
             </div>
           </div>
@@ -89,37 +89,30 @@ export default function HomePage() {
       <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Your Transfer Roadmap</h2>
-            <p className="text-gray-600">Four simple steps to transfer success</p>
+            <h2 className="text-3xl font-bold mb-4">How TransferAble Works</h2>
+            <p className="text-gray-600">Your complete transfer planning solution in 3 steps</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
               <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform">
                 1
               </div>
-              <h3 className="text-xl font-semibold mb-2">Plan Your Courses</h3>
-              <p className="text-gray-600 text-sm">Map out all required courses and prerequisites for your major</p>
+              <h3 className="text-xl font-semibold mb-2">Add Your Courses</h3>
+              <p className="text-gray-600 text-sm">Track completed and planned courses from your community college</p>
             </div>
             <div className="text-center group">
               <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-2">Connect with Mentors</h3>
-              <p className="text-gray-600 text-sm">Get guidance from students who successfully transferred</p>
+              <h3 className="text-xl font-semibold mb-2">Check TAG Eligibility</h3>
+              <p className="text-gray-600 text-sm">See if you qualify for guaranteed admission to 6 UCs</p>
             </div>
             <div className="text-center group">
               <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-sky-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform">
                 3
               </div>
-              <h3 className="text-xl font-semibold mb-2">Write Your PIQs</h3>
-              <p className="text-gray-600 text-sm">Craft compelling essays with AI-powered brainstorming</p>
-            </div>
-            <div className="text-center group">
-              <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-sky-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform">
-                4
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Submit & Track</h3>
-              <p className="text-gray-600 text-sm">Stay on top of deadlines and monitor your progress</p>
+              <h3 className="text-xl font-semibold mb-2">Never Miss Deadlines</h3>
+              <p className="text-gray-600 text-sm">Stay organized with automated timeline and deadline tracking</p>
             </div>
           </div>
         </div>

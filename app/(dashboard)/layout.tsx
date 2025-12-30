@@ -2,7 +2,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-import { BookOpen, LayoutDashboard, Calendar, Users, FileText, Award, Settings, GraduationCap } from "lucide-react";
+import { BookOpen, LayoutDashboard, Calendar, Users, FileText, Award, Shield } from "lucide-react";
 import { HelpCenter } from "@/components/help/help-center";
 import { Logo } from "@/components/ui/logo";
 
@@ -20,17 +20,12 @@ export default async function DashboardLayout({
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/courses", label: "Course Plan", icon: BookOpen },
-    { href: "/education-plan", label: "Education Plan", icon: GraduationCap },
-    { href: "/study-tools", label: "Study Tools", icon: BookOpen },
+    { href: "/tag-tracker", label: "TAG Tracker", icon: Shield },
     { href: "/timeline", label: "Timeline", icon: Calendar },
-    { href: "/mentors", label: "Mentors", icon: Users },
     { href: "/applications", label: "Applications", icon: FileText },
-    { href: "/homework-help", label: "Homework Help", icon: BookOpen, premium: true },
-    { href: "/ai-counselor", label: "AI Counselor", icon: Users, premium: true },
+    { href: "/mentors", label: "Mentors", icon: Users },
     { href: "/resources", label: "Resources", icon: Award },
-    { href: "/apply-mentor", label: "Become a Mentor", icon: GraduationCap },
     { href: "/payments", label: "Upgrade to Premium", icon: Award },
-    { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   return (

@@ -26,30 +26,26 @@ export function PricingSection() {
               <CardDescription>Perfect for getting started</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">$0</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-gray-600">/forever</span>
               </div>
             </CardHeader>
             <CardContent>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Course planning & equivalency database</span>
+                  <span>Basic course planning for 2 universities</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Automated timeline generator</span>
+                  <span>ASSIST.org integration guide</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>1 mentor connection</span>
+                  <span>Application deadline tracking</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>PIQ essay editor</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-500" />
-                  <span>Application tracking</span>
+                  <span>Transfer timeline planner</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
@@ -73,12 +69,15 @@ export function PricingSection() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Crown className="h-5 w-5 text-yellow-500" />
-                Premium
+                Premium Annual
               </CardTitle>
-              <CardDescription>For serious transfer students</CardDescription>
+              <CardDescription>Everything you need for transfer success</CardDescription>
               <div className="mt-4">
-                <span className="text-4xl font-bold">$9.99</span>
-                <span className="text-gray-600">/month</span>
+                <span className="text-4xl font-bold">$29</span>
+                <span className="text-gray-600">/year</span>
+              </div>
+              <div className="text-sm text-green-600 font-medium">
+                Save $91 vs monthly pricing
               </div>
             </CardHeader>
             <CardContent>
@@ -89,15 +88,15 @@ export function PricingSection() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Unlimited mentor connections</span>
+                  <span>Unlimited university planning</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>AI-powered essay feedback</span>
+                  <span>TAG (Transfer Admission Guarantee) tracker</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Transcript parsing & audit</span>
+                  <span>AI-powered transfer predictions</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
@@ -105,18 +104,18 @@ export function PricingSection() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Advanced analytics & insights</span>
+                  <span>SMS deadline reminders</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5 text-green-500" />
-                  <span>Priority customer support</span>
+                  <span>PIQ essay editor & feedback</span>
                 </li>
               </ul>
               <Button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700" asChild>
-                <Link href="/sign-up">Start Premium Trial</Link>
+                <Link href="/sign-up">Start Free Trial</Link>
               </Button>
               <p className="text-xs text-center text-gray-500 mt-2">
-                7-day free trial, cancel anytime
+                14-day free trial, cancel anytime
               </p>
             </CardContent>
           </Card>
