@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { currentUser } from "@clerk/nextjs/server";
 import { requirePremium } from "@/lib/premium-check";
 
+
+export const dynamic = 'force-dynamic';
+
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 export async function POST(request: Request) {

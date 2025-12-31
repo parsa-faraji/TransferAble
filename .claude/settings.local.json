@@ -17,7 +17,8 @@
       "Bash(rm:*)",
       "Bash(vercel --prod)",
       "Bash(vercel --prod --yes)",
-      "Bash(vercel login)"
+      "Bash(vercel login)",
+      "Bash(' app/api/applications/ai-feedback/route.ts)"
     ],
     "deny": [],
     "ask": []
