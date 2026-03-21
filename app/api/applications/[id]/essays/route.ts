@@ -4,6 +4,28 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = 'force-dynamic';
 
+/**
+ * Verify that the authenticated user owns the given application.
+ * Returns the application if owned, or null if not found / not owned.
+ */
+async function verifyApplicationOwnership(applicationId: string, clerkId: string) {
+  const dbUser = await prisma.user.findUnique({
+    where: { clerkId },
+    select: { id: true },
+  });
+
+  if (!dbUser) return null;
+
+  const application = await prisma.application.findFirst({
+    where: {
+      id: applicationId,
+      userId: dbUser.id,
+    },
+  });
+
+  return application;
+}
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -15,6 +37,13 @@ export async function POST(
     }
 
     const { id } = await params;
+
+    // Verify the user owns this application
+    const application = await verifyApplicationOwnership(id, user.id);
+    if (!application) {
+      return NextResponse.json({ error: "Application not found" }, { status: 404 });
+    }
+
     const body = await request.json();
     const { prompt, content, wordCount, isComplete } = body;
 
@@ -49,6 +78,13 @@ export async function PATCH(
     }
 
     const { id } = await params;
+
+    // Verify the user owns this application
+    const application = await verifyApplicationOwnership(id, user.id);
+    if (!application) {
+      return NextResponse.json({ error: "Application not found" }, { status: 404 });
+    }
+
     const body = await request.json();
     const { essayId, prompt, content, wordCount, isComplete, feedback } = body;
 

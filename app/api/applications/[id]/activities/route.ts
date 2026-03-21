@@ -16,6 +16,25 @@ export async function POST(
     }
 
     const { id } = await params;
+
+    // Verify the user owns this application
+    const dbUser = await prisma.user.findUnique({
+      where: { clerkId: user.id },
+      select: { id: true },
+    });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const application = await prisma.application.findFirst({
+      where: { id, userId: dbUser.id },
+    });
+
+    if (!application) {
+      return NextResponse.json({ error: "Application not found" }, { status: 404 });
+    }
+
     const body = await request.json();
     const { activities } = body as { activities: ActivityInput[] };
 
