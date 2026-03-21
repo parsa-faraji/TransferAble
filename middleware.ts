@@ -14,23 +14,27 @@ const isPublicRoute = createRouteMatcher([
   "/blog",
   "/guides",
   "/community",
+  "/apply-mentor",
+  // Public API routes that need unauthenticated access
+  "/api/contact",
+  "/api/payments/webhook",
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
   const { userId } = await auth();
-  
+
   // If user is not signed in and trying to access protected route, redirect to sign-in
   if (!userId && !isPublicRoute(request)) {
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set("redirect_url", request.url);
     return NextResponse.redirect(signInUrl);
   }
-  
+
   // If user is signed in and trying to access auth pages, redirect to dashboard
   if (userId && (request.nextUrl.pathname === "/sign-in" || request.nextUrl.pathname === "/sign-up")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-  
+
   return NextResponse.next();
 });
 
@@ -40,5 +44,3 @@ export const config = {
     "/(api|trpc)(.*)",
   ],
 };
-
-
