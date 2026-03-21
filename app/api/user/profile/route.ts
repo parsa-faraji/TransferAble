@@ -49,7 +49,7 @@ export async function GET() {
     }
 
     // Find target universities by IDs
-    const targetUniversities = new Map<string, any>();
+    const targetUniversities = new Map<string, { id: string; name: string; code: string; type: string }>();
     if (dbUser.targetUniversities && dbUser.targetUniversities.length > 0) {
       const universities = await prisma.university.findMany({
         where: {

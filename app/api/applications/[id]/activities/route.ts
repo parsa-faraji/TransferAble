@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import type { ActivityInput } from "@/lib/types";
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +17,14 @@ export async function POST(
 
     const { id } = await params;
     const body = await request.json();
-    const { activities } = body;
+    const { activities } = body as { activities: ActivityInput[] };
+
+    if (!Array.isArray(activities)) {
+      return NextResponse.json(
+        { error: "activities must be an array" },
+        { status: 400 }
+      );
+    }
 
     // Delete existing activities
     await prisma.applicationActivity.deleteMany({
@@ -25,7 +33,7 @@ export async function POST(
 
     // Create new activities
     const createdActivities = await Promise.all(
-      activities.map((activity: any) =>
+      activities.map((activity: ActivityInput) =>
         prisma.applicationActivity.create({
           data: {
             applicationId: id,

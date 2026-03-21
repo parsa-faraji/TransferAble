@@ -124,7 +124,7 @@ export async function POST(request: Request) {
           if (!courseCode) continue;
 
           // Find or create the course
-          const course: any = await prisma.course.upsert({
+          const course = await prisma.course.upsert({
             where: {
               communityCollegeId_code: {
                 communityCollegeId: ccRecord.id,

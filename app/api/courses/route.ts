@@ -47,7 +47,7 @@ export async function GET() {
 
     // Course equivalencies feature temporarily disabled
     // Users should refer to ASSIST.org for course equivalencies
-    const courses: any[] = [];
+    const courses: unknown[] = [];
 
     return NextResponse.json({
       courses,

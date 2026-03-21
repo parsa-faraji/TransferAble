@@ -77,7 +77,7 @@ async function fetchFromAssist(
 /**
  * Use LLM to parse and normalize course data
  */
-async function parseWithLLM(rawData: any[]): Promise<AssistCourseData[]> {
+async function parseWithLLM(rawData: AssistCourseData[]): Promise<AssistCourseData[]> {
   const openaiKey = process.env.OPENAI_API_KEY;
 
   if (!openaiKey) {
