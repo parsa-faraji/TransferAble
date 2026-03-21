@@ -74,14 +74,17 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { requestId, content } = body;
 
-    if (!requestId || !content) {
+    const { chatMessageSchema, validateRequest: validate } = await import("@/lib/validations");
+    const validation = validate(chatMessageSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Request ID and content required" },
+        { error: validation.error },
         { status: 400 }
       );
     }
+
+    const { requestId, content } = validation.data;
 
     const dbUser = await prisma.user.findUnique({
       where: { clerkId: user.id },

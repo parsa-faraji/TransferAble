@@ -70,7 +70,17 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { courseId, grade, term } = body;
+
+    const { courseCompletionSchema, validateRequest: validate } = await import("@/lib/validations");
+    const validation = validate(courseCompletionSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    const { courseId, grade, term } = validation.data;
 
     const dbUser = await prisma.user.findUnique({
       where: { clerkId: user.id },

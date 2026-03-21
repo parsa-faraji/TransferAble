@@ -1,6 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { mentorshipRequestSchema, validateRequest } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
@@ -10,7 +11,16 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { mentorId, message, topic } = body;
+
+    const validation = validateRequest(mentorshipRequestSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    const { mentorId, message, topic } = validation.data;
 
     const dbUser = await prisma.user.findUnique({
       where: { clerkId: user.id },

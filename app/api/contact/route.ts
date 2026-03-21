@@ -1,16 +1,19 @@
 import { NextResponse } from "next/server";
+import { contactFormSchema, validateRequest } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, subject, message } = body;
 
-    if (!name || !email || !subject || !message) {
+    const validation = validateRequest(contactFormSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "All fields are required" },
+        { error: validation.error },
         { status: 400 }
       );
     }
+
+    const { name, email, subject, message } = validation.data;
 
     // TODO: In production, you might want to:
     // 1. Send email via SendGrid, Resend, or similar service

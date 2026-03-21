@@ -1,6 +1,11 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import {
+  createMilestoneSchema,
+  updateMilestoneSchema,
+  validateRequest,
+} from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
@@ -10,7 +15,16 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { timelineId, title, description, dueDate, category } = body;
+
+    const validation = validateRequest(createMilestoneSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    const { timelineId, title, description, dueDate, category } = validation.data;
 
     const milestone = await prisma.timelineMilestone.create({
       data: {
@@ -40,7 +54,16 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { id, isCompleted } = body;
+
+    const validation = validateRequest(updateMilestoneSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: 400 }
+      );
+    }
+
+    const { id, isCompleted } = validation.data;
 
     const milestone = await prisma.timelineMilestone.update({
       where: { id },

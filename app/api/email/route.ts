@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { currentUser } from "@clerk/nextjs/server";
+import { sendEmailSchema, validateRequest } from "@/lib/validations";
 
 // Email service using Resend (recommended) or Nodemailer
 // For now, we'll use a simple implementation that can be upgraded
@@ -8,15 +10,22 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { to, subject, html, text } = body;
+    const user = await currentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    if (!to || !subject || (!html && !text)) {
+    const body = await request.json();
+
+    const validation = validateRequest(sendEmailSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: validation.error },
         { status: 400 }
       );
     }
+
+    const { to, subject, html, text } = validation.data;
 
     // If Resend API key is set, use Resend
     if (RESEND_API_KEY) {
